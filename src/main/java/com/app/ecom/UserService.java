@@ -16,4 +16,13 @@ public class UserService {
         users.add(user);
         return users;
     }
+
+    public User fetchUserById(int id) {
+        for (User user : users) {
+            if (user.getId() == id) {
+                return user;
+            }
+        }
+        return null;
+    }
 }
