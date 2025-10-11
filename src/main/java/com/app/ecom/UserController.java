@@ -2,11 +2,12 @@ package com.app.ecom;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -26,8 +27,7 @@ public class UserController {
     }
     @GetMapping("api/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id){
-        if(userService.fetchUserById(id) == null)return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(userService.fetchUserById(id));
+        return userService.fetchUserById(id).map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 
 }
