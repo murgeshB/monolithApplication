@@ -21,4 +21,8 @@ public class UserService {
     public Optional<User> fetchUserById(int id) {
         return users.stream().filter(user -> user.getId() == id).findFirst();
     }
+
+    public User updateUser(User user, int id) {
+        return users.stream().filter(use -> use.getId() ==id).findFirst().map(u -> {u.setFirstName(user.getFirstName());u.setLastName(user.getLastName());return u;}).orElseGet(null);
+    }
 }
