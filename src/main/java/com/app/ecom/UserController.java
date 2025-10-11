@@ -2,12 +2,10 @@ package com.app.ecom;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 public class UserController {
@@ -22,8 +20,9 @@ public class UserController {
     }
 
     @PostMapping("/api/users")
-    public ResponseEntity<List<User>> createUser(@RequestBody User user){
-        return ResponseEntity.ok(userService.addUser(user));
+    public ResponseEntity<String> createUser(@RequestBody User user){
+        userService.addUser(user);
+        return ResponseEntity.ok("User Added Successfully");
     }
     @GetMapping("api/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id){
