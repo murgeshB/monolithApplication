@@ -8,28 +8,29 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
 
-    @GetMapping("/api/users")
+    @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers(){
         return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
-    @PostMapping("/api/users")
+    @PostMapping("")
     public ResponseEntity<String> createUser(@RequestBody User user){
         userService.addUser(user);
         return ResponseEntity.ok("User Added Successfully");
     }
-    @GetMapping("api/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id){
+    @GetMapping("{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id){
         return userService.fetchUserById(id).map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
-    @PutMapping ("/api/users/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable int id,@RequestBody User user){
+    @PutMapping ("{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody User user){
         if(userService.updateUser(user,id) != null)
         return ResponseEntity.ok("User Updated Successfully");
         else
