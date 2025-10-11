@@ -2,6 +2,7 @@ package com.app.ecom;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,17 +16,18 @@ public class UserController {
 
 
     @GetMapping("/api/users")
-    public List<User> getAllUsers(){
-        return userService.fetchAllUsers();
+    public ResponseEntity<List<User>> getAllUsers(){
+        return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
     @PostMapping("/api/users")
-    public List<User> createUser(@RequestBody User user){
-        return userService.addUser(user);
+    public ResponseEntity<List<User>> createUser(@RequestBody User user){
+        return ResponseEntity.ok(userService.addUser(user));
     }
     @GetMapping("api/users/{id}")
-    public User getUserById(@PathVariable int id){
-        return userService.fetchUserById(id);
+    public ResponseEntity<User> getUserById(@PathVariable int id){
+        if(userService.fetchUserById(id) == null)return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(userService.fetchUserById(id));
     }
 
 }
