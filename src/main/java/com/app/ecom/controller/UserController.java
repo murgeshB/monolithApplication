@@ -1,6 +1,7 @@
 package com.app.ecom.controller;
 
 
+import com.app.ecom.dto.UserDTO;
 import com.app.ecom.models.User;
 import com.app.ecom.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,13 @@ public class UserController {
 
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<UserDTO>> getAllUsers(){
+
         return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createUser(@RequestBody User user){
+    public ResponseEntity<String> createUser(@RequestBody UserDTO user){
         userService.addUser(user);
         return ResponseEntity.ok("User Added Successfully");
     }
@@ -32,7 +34,7 @@ public class UserController {
         return userService.fetchUserById(id).map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
     @PutMapping ("{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody User user){
+    public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody UserDTO user){
         if(userService.updateUser(user,id) != null)
         return ResponseEntity.ok("User Updated Successfully");
         else
