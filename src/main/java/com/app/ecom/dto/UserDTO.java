@@ -1,6 +1,4 @@
 package com.app.ecom.dto;
-
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

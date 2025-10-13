@@ -30,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok("User Added Successfully");
     }
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
         return userService.fetchUserById(id).map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
     @PutMapping ("{id}")
