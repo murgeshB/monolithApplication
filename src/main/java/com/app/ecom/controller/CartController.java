@@ -3,6 +3,8 @@ package com.app.ecom.controller;
 import com.app.ecom.dto.CartItemRequest;
 import com.app.ecom.services.CartService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
-
+    Logger logger = LogManager.getLogger(CartController.class);
     @PostMapping("/")
     public ResponseEntity<String> addToCart(@RequestHeader("X-User-ID")  String userId,@RequestBody CartItemRequest request){
          if(!cartService.addToCart(userId,request)) return ResponseEntity.badRequest().body("Out of Stock");
@@ -22,6 +24,7 @@ public class CartController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeFromCart(@RequestHeader("X-User-ID") String userId,@PathVariable("id") Long productId){
         boolean deleted=cartService.deleteItemFromCart(userId,productId);
+        logger.info(deleted);
         if(deleted) return ResponseEntity.noContent().build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

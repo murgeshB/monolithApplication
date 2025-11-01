@@ -1,5 +1,6 @@
 package com.app.ecom.services;
 
+import com.app.ecom.controller.CartController;
 import com.app.ecom.dto.CartItemRequest;
 import com.app.ecom.models.CartItem;
 import com.app.ecom.models.Product;
@@ -10,6 +11,8 @@ import com.app.ecom.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,6 +26,7 @@ public class CartService {
    private final CartItemRepository cartItemRepository;
    private final ProductRepository productRepository;
    private final UserRepository userRepository;
+    Logger logger = LogManager.getLogger(CartService.class);
 
    public boolean addToCart(String userId, CartItemRequest request){
      Optional<Product> optionalProduct   =productRepository.findById(request.getProductId());
@@ -52,9 +56,11 @@ public class CartService {
    }
     @Transactional
     public boolean deleteItemFromCart(String userId, Long productId) {
+        logger.info(userId);
+        logger.info(productId);
         Optional<Product> optionalProduct   =productRepository.findById(productId);
         if(optionalProduct.isEmpty()){return false;}
-
+        logger.info("deleteItemFromCart",optionalProduct);
         Optional<User> userOpt=userRepository.findById(Long.valueOf(userId));
         if(userOpt.isEmpty()){return false;}
 
@@ -64,6 +70,6 @@ public class CartService {
                 return true;
             })
         );
-        return false;
+        return true;
     }
 }
