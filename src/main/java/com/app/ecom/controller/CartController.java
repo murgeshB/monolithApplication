@@ -18,4 +18,11 @@ public class CartController {
          if(!cartService.addToCart(userId,request)) return ResponseEntity.badRequest().body("Out of Stock");
          return ResponseEntity.status(HttpStatus.CREATED).body("Added Successfully");
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removeFromCart(@RequestHeader("X-User-ID") String userId,@PathVariable("id") Long productId){
+        boolean deleted=cartService.deleteItemFromCart(userId,productId);
+        if(deleted) return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }
