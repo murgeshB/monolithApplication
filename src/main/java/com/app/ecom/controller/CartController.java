@@ -1,6 +1,7 @@
 package com.app.ecom.controller;
 
 import com.app.ecom.dto.CartItemRequest;
+import com.app.ecom.models.CartItem;
 import com.app.ecom.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/cart")
@@ -27,5 +30,10 @@ public class CartController {
         logger.info(deleted);
         if(deleted) return ResponseEntity.noContent().build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    @GetMapping("/")
+    public ResponseEntity<List<CartItem>> getCartItem(@RequestHeader("X-USER-ID") String userId){
+       return ResponseEntity.ok(cartService.getCart(userId));
+
     }
 }

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 @Entity
 @Data
+@NoArgsConstructor
 public class CartItem {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
