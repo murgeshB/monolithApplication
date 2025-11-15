@@ -31,6 +31,9 @@ public class UserService {
 
         return userRepository.findById(id).map(user -> modelMapper.map(user, UserDTO.class));
     }
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
 
     public User updateUser(UserDTO user, Long id) {
 
